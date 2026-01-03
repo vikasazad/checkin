@@ -1,0 +1,125 @@
+[
+  {
+    "name": "Vikas Kumar Azad",
+    "phone": "8851280284",
+    "email": "",
+    "checkIn": "2025-12-19T11:36:18.365Z",
+    "checkOut": "2025-12-20T11:36:18.365Z",
+    "numberOfGuests": "2",
+    "roomCategory": "Deluxe",
+    "paymentMode": "card",
+    "bookingId": "RES:121925:3964",
+    "guests": [
+      {
+        "id": "G01",
+        "name": "Vikas Kumar Azad"
+      },
+      {
+        "id": "G02",
+        "name": "Guest02"
+      }
+    ],
+    "nights": 1,
+    "createdAt": "2025-12-19T11:43:25.904Z"
+  },
+  {
+    "name": "John Anderson",
+    "phone": "+1234567890",
+    "email": "john@example.com",
+    "checkIn": "2025-12-19T10:00:00.000Z",
+    "checkOut": "2025-12-21T10:00:00.000Z",
+    "numberOfGuests": "2",
+    "roomCategory": "Suite",
+    "paymentMode": "card",
+    "bookingId": "RES:121925:1001",
+    "guests": [
+      {
+        "id": "G001",
+        "name": "John Anderson"
+      },
+      {
+        "id": "G002",
+        "name": "Sarah Anderson"
+      }
+    ],
+    "nights": 2,
+    "createdAt": "2025-12-19T09:00:00.000Z"
+  },
+  {
+    "name": "Michael Chen",
+    "phone": "+9876543213",
+    "email": "michael@example.com",
+    "checkIn": "2025-12-19T12:00:00.000Z",
+    "checkOut": "2025-12-20T12:00:00.000Z",
+    "numberOfGuests": "1",
+    "roomCategory": "Standard",
+    "paymentMode": "cash",
+    "bookingId": "RES:121925:1002",
+    "guests": [
+      {
+        "id": "G003",
+        "name": "Michael Chen"
+      }
+    ],
+    "nights": 1,
+    "createdAt": "2025-12-19T09:30:00.000Z"
+  },
+  {
+    "name": "Emily Rodriguez",
+    "phone": "+5555555555",
+    "email": "emily@example.com",
+    "checkIn": "2025-12-19T14:00:00.000Z",
+    "checkOut": "2025-12-22T14:00:00.000Z",
+    "numberOfGuests": "3",
+    "roomCategory": "Family",
+    "paymentMode": "card",
+    "bookingId": "RES:121925:1003",
+    "guests": [
+      {
+        "id": "G004",
+        "name": "Emily Rodriguez"
+      },
+      {
+        "id": "G005",
+        "name": "David Rodriguez"
+      },
+      {
+        "id": "G006",
+        "name": "Sophie Rodriguez"
+      }
+    ],
+    "nights": 3,
+    "createdAt": "2025-12-19T10:00:00.000Z"
+  },
+  {
+    "name": "James Wilson",
+    "phone": "+1122334455",
+    "email": "james@example.com",
+    "checkIn": "2025-12-19T15:00:00.000Z",
+    "checkOut": "2025-12-23T15:00:00.000Z",
+    "numberOfGuests": "4",
+    "roomCategory": "Presidential Suite",
+    "paymentMode": "card",
+    "bookingId": "RES:121925:1004",
+    "guests": [
+      {
+        "id": "G007",
+        "name": "James Wilson"
+      },
+      {
+        "id": "G008",
+        "name": "Patricia Wilson"
+      },
+      {
+        "id": "G009",
+        "name": "Robert Wilson"
+      },
+      {
+        "id": "G013",
+        "name": "Lisa Wilson"
+      }
+    ],
+    "nights": 4,
+    "createdAt": "2025-12-19T10:30:00.000Z"
+  }
+]
