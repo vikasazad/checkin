@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Reservation, Guest } from "@/lib/reservations";
+import { updateReservationWithImages } from "@/lib/reservations";
 import ImageUploadOptions from "./ImageUploadOptions";
 import { uploadBase64ToFirebase } from "@/lib/imageUpload";
 import { useRouter } from "next/navigation";
@@ -97,8 +98,10 @@ export default function CheckInForm({ reservation, onBack }: CheckInFormProps) {
     setIsSubmitting(true);
 
     try {
-      // Upload all images to Firebase
-      const uploadPromises = guestImages.map(async (guestImage) => {
+      // Upload all images to Firebase Storage
+      const uploadResults: { guestId: string; frontIdUrl: string; backIdUrl: string }[] = [];
+      
+      for (const guestImage of guestImages) {
         const guest = reservation.guests.find(
           (g) => g.id === guestImage.guestId
         );
@@ -153,12 +156,27 @@ export default function CheckInForm({ reservation, onBack }: CheckInFormProps) {
           results
         );
 
-        return results;
-      });
+        // Store the uploaded URLs
+        if (results[0] && results[1]) {
+          uploadResults.push({
+            guestId: guestImage.guestId,
+            frontIdUrl: results[0] as string,
+            backIdUrl: results[1] as string,
+          });
+        }
+      }
 
-      await Promise.all(uploadPromises);
+      // Update the reservation in Firebase with image URLs
+      const updateSuccess = await updateReservationWithImages(
+        reservation.bookingId,
+        uploadResults
+      );
 
-      console.log("Check-in completed! All images uploaded:", guestImages);
+      if (!updateSuccess) {
+        throw new Error("Failed to update reservation with image URLs");
+      }
+
+      console.log("Check-in completed! All images uploaded and reservation updated");
       setShowSuccess(true);
 
       // Redirect to phone number entry page after showing success
@@ -166,7 +184,7 @@ export default function CheckInForm({ reservation, onBack }: CheckInFormProps) {
         onBack();
       }, 3000);
     } catch (error) {
-      console.error("Error uploading images:", error);
+      console.error("Error during check-in:", error);
       setUploadStatuses((prev) => [
         ...prev.map((s) => ({
           ...s,

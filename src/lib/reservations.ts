@@ -1,10 +1,12 @@
 import { db } from "@/config/db/firebase";
 // import reservationsData from "@/data/reservations.json";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 export interface Guest {
   id: string;
   name: string;
+  frontIdUrl?: string;
+  backIdUrl?: string;
 }
 
 export interface Reservation {
@@ -56,6 +58,73 @@ export async function findReservationByPhone(number: any) {
     }
   } catch (error) {
     console.error("Error adding reservation:", error);
+    return false;
+  }
+}
+
+/**
+ * Update reservation with guest ID image URLs
+ * @param bookingId - The booking ID of the reservation
+ * @param guestImageUrls - Array of guest IDs with their image URLs
+ * @returns Promise with success status
+ */
+export async function updateReservationWithImages(
+  bookingId: string,
+  guestImageUrls: { guestId: string; frontIdUrl: string; backIdUrl: string }[]
+): Promise<boolean> {
+  try {
+    const docRef = doc(db, "vikumar.azad@gmail.com", "hotel");
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      console.error("Document does not exist");
+      return false;
+    }
+
+    const data = docSnap.data();
+    const reservations = data.reservation || [];
+
+    // Find the reservation index
+    const reservationIndex = reservations.findIndex(
+      (res: any) => res.bookingId === bookingId
+    );
+
+    if (reservationIndex === -1) {
+      console.error("Reservation not found");
+      return false;
+    }
+
+    // Update the guests with image URLs
+    const updatedReservation = { ...reservations[reservationIndex] };
+    updatedReservation.guests = updatedReservation.guests.map(
+      (guest: Guest) => {
+        const imageUrls = guestImageUrls.find(
+          (img) => img.guestId === guest.id
+        );
+        if (imageUrls) {
+          return {
+            ...guest,
+            frontIdUrl: imageUrls.frontIdUrl,
+            backIdUrl: imageUrls.backIdUrl,
+          };
+        }
+        return guest;
+      }
+    );
+
+    // Update the reservations array
+    const updatedReservations = [...reservations];
+    updatedReservations[reservationIndex] = updatedReservation;
+
+    // Update Firestore document
+    await updateDoc(docRef, {
+      reservation: updatedReservations,
+    });
+
+    console.log("Reservation updated successfully with image URLs");
+    return true;
+  } catch (error) {
+    console.error("Error updating reservation:", error);
     return false;
   }
 }
